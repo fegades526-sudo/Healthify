@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Healthify — AI Health Awareness</title>
+    <style>
+        :root {
+            --ink: #17312b;
+            --muted: #688078;
+            --mint: #dff3e9;
+            --accent: #2f8f6b;
+            --paper: #fbfdfb;
+            --paper-2: #f3faf6;
+            --night: #10231f;
+            --night-card: #19352d;
+            --shadow: rgba(23, 49, 43, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at top left, rgba(73, 199, 143, 0.12), transparent 28%),
+                radial-gradient(circle at bottom right, rgba(88, 155, 255, 0.08), transparent 30%),
+                var(--paper);
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, sans-serif;
+            transition: color .2s ease, background .2s ease;
+        }
+
+        .page {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 28px clamp(24px, 6vw, 88px);
+            overflow: hidden;
+        }
+
+        .page::before {
+            content: "";
+            position: absolute;
+            inset: -20% auto auto -10%;
+            width: 420px;
+            height: 420px;
+            background: rgba(47, 143, 107, 0.08);
+            filter: blur(50px);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            z-index: 1;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            letter-spacing: -.02em;
+            transition: transform .2s ease;
+        }
+
+        .brand:hover {
+            transform: translateY(-1px);
+        }
+
+        .mark {
+            width: 30px;
+            height: 30px;
+            display: grid;
+            place-items: center;
+            color: white;
+            background: linear-gradient(135deg, var(--accent), #3fc38d);
+            border-radius: 50%;
+            font-size: 17px;
+            box-shadow: 0 10px 24px rgba(47, 143, 107, 0.3);
+        }
+
+        .note {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .actions {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .theme-toggle,
+        .lang-select,
+        .button,
+        .quiet {
+            transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease;
+        }
+
+        .theme-toggle {
+            padding: 9px 13px;
+            color: var(--ink);
+            background: rgba(255, 255, 255, 0.35);
+            border: 1px solid currentColor;
+            border-radius: 7px;
+            font: inherit;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .theme-toggle:hover,
+        .lang-select:hover,
+        .button:hover,
+        .quiet:hover {
+            transform: translateY(-1px);
+        }
+
+        .lang-switcher {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .lang-select {
+            padding: 8px 10px;
+            border: 1px solid rgba(23, 49, 43, 0.2);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.5);
+            color: inherit;
+            font: inherit;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        body.dark-mode { color: #e7f4ed; background: radial-gradient(circle at top left, rgba(80, 180, 143, 0.16), transparent 30%), var(--night); }
+        body.dark-mode .note { color: #a4bdb1; }
+        body.dark-mode .theme-toggle,
+        body.dark-mode .quiet,
+        body.dark-mode .lang-select { color: #e7f4ed; }
+        body.dark-mode .card { background: var(--night-card); }
+        body.dark-mode .orb { color: #8bd1ae; background: #23483c; border-color: #315348; }
+        body.dark-mode .lang-select { background: rgba(16, 35, 31, 0.8); border-color: rgba(255,255,255,0.15); }
+
+        main {
+            width: min(1080px, 100%);
+            margin: auto;
+            display: grid;
+            grid-template-columns: 1.05fr .95fr;
+            gap: clamp(40px, 9vw, 130px);
+            align-items: center;
+            padding: 70px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .eyebrow {
+            color: var(--accent);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            max-width: 610px;
+            margin: 16px 0 20px;
+            font-size: clamp(44px, 6.5vw, 76px);
+            line-height: .98;
+            letter-spacing: -.065em;
+            animation: riseIn .7s ease both;
+        }
+
+        h1 span {
+            color: var(--accent);
+        }
+
+        p {
+            max-width: 480px;
+            margin: 0 0 30px;
+            color: var(--muted);
+            font-size: 17px;
+            line-height: 1.7;
+        }
+
+        .actions {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            animation: riseIn .8s ease .1s both;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 14px 21px;
+            color: white;
+            background: linear-gradient(135deg, var(--ink), #245847);
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+            box-shadow: 0 12px 20px rgba(23, 49, 43, 0.12);
+        }
+
+        .quiet {
+            color: var(--ink);
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .card {
+            position: relative;
+            padding: 34px;
+            background: linear-gradient(160deg, rgba(223, 243, 233, 0.95), rgba(255,255,255,0.95));
+            border-radius: 24px;
+            box-shadow: 0 28px 60px var(--shadow);
+            transform: translateY(0);
+            transition: transform .25s ease, box-shadow .25s ease;
+            animation: floatCard 5s ease-in-out infinite;
+        }
+
+        .card:hover {
+            transform: translateY(-6px) scale(1.01);
+            box-shadow: 0 30px 70px rgba(23, 49, 43, 0.16);
+        }
+
+        .orb {
+            width: 210px;
+            height: 210px;
+            margin: 3px auto 28px;
+            display: grid;
+            place-items: center;
+            color: var(--accent);
+            background: radial-gradient(circle at 35% 35%, #ffffff 0%, #f3faf6 45%, #eaf7f0 100%);
+            border: 1px solid #c7e7d7;
+            border-radius: 50%;
+            font-size: 74px;
+            box-shadow: inset 0 10px 20px rgba(255,255,255,0.8), 0 30px 50px rgba(47, 143, 107, 0.15);
+            animation: pulseGlow 4s ease-in-out infinite;
+        }
+
+        .card h2 {
+            margin: 0 0 8px;
+            font-size: 23px;
+            letter-spacing: -.03em;
+        }
+
+        .card p {
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        footer {
+            display: flex;
+            justify-content: space-between;
+            color: var(--muted);
+            font-size: 12px;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes riseIn {
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(1); box-shadow: inset 0 10px 20px rgba(255,255,255,0.8), 0 30px 50px rgba(47, 143, 107, 0.15); }
+            50% { transform: scale(1.04); box-shadow: inset 0 10px 20px rgba(255,255,255,0.8), 0 34px 60px rgba(47, 143, 107, 0.24); }
+        }
+
+        @keyframes floatCard {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        @media (max-width: 720px) {
+            main {
+                grid-template-columns: 1fr;
+                padding: 55px 0;
+            }
+
+            .card {
+                max-width: 440px;
+            }
+
+            .note {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page">
+        <nav>
+            <div class="brand"><span class="mark">+</span>Healtify</div>
+            <div class="actions">
+                <div class="lang-switcher" aria-label="Language selector">
+                    <select class="lang-select" aria-label="Select language" data-lang-select>
+                        <option value="en">English</option>
+                        <option value="hi">हिन्दी</option>
+                        <option value="bn">বাংলা</option>
+                        <option value="ta">தமிழ்</option>
+                        <option value="te">తెలుగు</option>
+                        <option value="mr">मराठी</option>
+                        <option value="gu">ગુજરાતી</option>
+                        <option value="kn">ಕನ್ನಡ</option>
+                    </select>
+                </div>
+                <div class="note" data-i18n="tagline">Thoughtful guidance. Better awareness.</div>
+                <button class="theme-toggle" id="theme-toggle" type="button">Dark mode</button>
+            </div>
+        </nav>
+        <main>
+            <section>
+                <div class="eyebrow" data-i18n="hero_eyebrow">AI health awareness assistant</div>
+                <h1 data-i18n="hero_title">Understand your health</h1>
+                <p data-i18n="hero_text">Healtify helps you make sense of everyday health information with clear, accessible guidance—so you
+                    can take your next step with confidence.</p>
+                <div class="actions"><a class="button" href="home.html" data-i18n="cta_primary">Ask Healthify</a><a class="quiet" href="aboutUs.html" data-i18n="cta_secondary">
+                    About us <span aria-hidden="true">→</span></a></div>
+            </section>
+            <aside class="card" id="start">
+                <div class="orb">☤</div>
+                <h2 data-i18n="card_title">A calmer way to care for yourself.</h2>
+                <p data-i18n="card_text">Ask questions, learn the basics, and prepare for more informed conversations with a healthcare
+                    professional.</p>
+            </aside>
+        </main>
+        <footer><span>© 2026 Healtify</span><span data-i18n="footer_note">For <b>awareness</b>, not diagnosis.</span></footer>
+    </div>
+    <script src="./index.js"></script>
+    <script>
+        const translations = {
+            en: {
+                tagline: 'Thoughtful guidance. Better awareness.',
+                hero_eyebrow: 'AI health awareness assistant',
+                hero_title: 'Understand your health',
+                hero_text: 'Healtify helps you make sense of everyday health information with clear, accessible guidance—so you can take your next step with confidence.',
+                cta_primary: 'Ask Healthify',
+                cta_secondary: 'About us <span aria-hidden="true">→</span>',
+                card_title: 'A calmer way to care for yourself.',
+                card_text: 'Ask questions, learn the basics, and prepare for more informed conversations with a healthcare professional.',
+                footer_note: 'For awareness, not diagnosis.'
+            },
+            hi: {
+                tagline: 'सचेत मार्गदर्शन। बेहतर जागरूकता।',
+                hero_eyebrow: 'एआई हेल्थ जागरूकता सहायक',
+                hero_title: 'अपने स्वास्थ्य को समझें',
+                hero_text: 'Healtify आपके दैनिक स्वास्थ्य ज्ञान को आसान भाषा में समझाता है, ताकि आप सही कदम उठाने के लिए बेहतर तैयारी कर सकें।',
+                cta_primary: 'Healtify से पूछें',
+                cta_secondary: 'हमारे बारे में <span aria-hidden="true">→</span>',
+                card_title: 'अपने लिए शांतिपूर्ण तरीके से देखभाल।',
+                card_text: 'प्रश्न पूछें, मूल बातें सीखें और स्वास्थ्य विशेषज्ञ के साथ बेहतर बातचीत के लिए तैयार रहें।',
+                footer_note: 'जागरूकता के लिए, निदान नहीं।'
+            },
+            bn: {
+                tagline: 'সহজ নির্দেশনা। আরও সচেতনতা।',
+                hero_eyebrow: 'এআই স্বাস্থ্য সচেতনতা সহকারী',
+                hero_title: 'আপনার স্বাস্থ্যের বুঝুন',
+                hero_text: 'Healtify দৈনন্দিন স্বাস্থ্য তথ্যকে সহজ ভাষায় ব্যাখ্যা করে, যাতে আপনি আরও আত্মবিশ্বাসের সাথে পরবর্তী পদক্ষেপ নিতে পারেন।',
+                cta_primary: 'Healtify-কে জিজ্ঞাসা করুন',
+                cta_secondary: 'আমাদের সম্পর্কে <span aria-hidden="true">→</span>',
+                card_title: 'নিজেকে যত্ন করার আরও শান্তিপূর্ণ উপায়।',
+                card_text: 'প্রশ্ন জিজ্ঞাসা করুন, মৌলিক বিষয় শিখুন এবং স্বাস্থ্যসেবা পেশাদারদের সঙ্গে আরও ভালোভাবে কথোপকথন করার জন্য প্রস্তুত হন।',
+                footer_note: 'সচেতনতার জন্য, রোগ নির্ণয়ের জন্য নয়।'
+            },
+            ta: {
+                tagline: 'தெளிவான வழிகாட்டுதல். சிறந்த விழிப்புணர்வு.',
+                hero_eyebrow: 'ஏஐ சுகாதார விழிப்புணர்வு உதவியாளர்',
+                hero_title: 'உங்கள் உடலைப் புரிந்துகொள்ளுங்கள்',
+                hero_text: 'Healtify உங்கள் அன்றாட சுகாதார தகவல்களை எளிதில் புரிந்துகொள்ள உதவுகிறது, ώστε நீங்கள் நம்பிக்கையுடன் அடுத்த படியை எடுக்கலாம்.',
+                cta_primary: 'Healtify-ஐ கேளுங்கள்',
+                cta_secondary: 'எங்களைப் பற்றி <span aria-hidden="true">→</span>',
+                card_title: 'உங்களை கவனித்துக்கொள்ள அமைதியான வழி.',
+                card_text: 'கேள்விகள் கேளுங்கள், அடிப்படைகளை கற்றுக்கொள்ளுங்கள், மேலும் சுகாதார நிபுணருடன் சிறந்த உரையாடலுக்கு தயாராகுங்கள்.',
+                footer_note: 'விழிப்புணர்வுக்காக, நோயறிதலுக்காக அல்ல.'
+            },
+            te: {
+                tagline: 'స్పష్ట మార్గదర్శనం. మెరుగైన అవగాహన.',
+                hero_eyebrow: 'ఏఐ ఆరోగ్య అవగాహన సహాయస్థానము',
+                hero_title: 'మీ ఆరోగ్యాన్ని అర్థం చేసుకోండి',
+                hero_text: 'Healtify రోజువారీ ఆరోగ్య సమాచారాన్ని సులభమైన భాషలో వివరించి, మీరు నమ్మకంగా తదుపరి చర్య తీసుకోవడానికి సహాయపడుతుంది.',
+                cta_primary: 'Healtify ని అడగండి',
+                cta_secondary: 'మా గురించి <span aria-hidden="true">→</span>',
+                card_title: 'మీరు మీను చూసుకోవడానికి ప్రశాంతమైన మార్గం.',
+                card_text: 'ప్రశ్నలు అడగండి, ప్రాథమిక విషయాలు నేర్చుకోండి మరియు ఆరోగ్య నిపుణులతో మరింత సమాచారంతో చర్చలకు తయారు شوید.',
+                footer_note: 'అవగాహన కోసం, నిర్ధారణ కోసం కాదు.'
+            },
+            mr: {
+                tagline: 'स्पष्ट मार्गदर्शन. चांगली जाणीव.',
+                hero_eyebrow: 'एआय आरोग्य जागरूकता सहाय्यक',
+                hero_title: 'तुमच्या आरोग्याचा विचार करा',
+                hero_text: 'Healtify रोजच्या आरोग्याविषयी माहिती सोप्या भाषेत स्पष्ट करते, ज so तुम्ही आत्मविश्वासाने पुढील पाऊल उचलू शकता.',
+                cta_primary: 'Healtify विचारा',
+                cta_secondary: 'आमच्याबद्दल',
+                card_title: 'तुमचं काळजी घेण्यासाठी शांत मार्ग.',
+                card_text: 'प्रश्न विचारा, मूलभूत गोष्टी शिका आणि आरोग्य तज्ज्ञांसोबत अधिक माहितीपूर्ण संवादासाठी तयार राहा.',
+                footer_note: 'जागरूकतेसाठी, निदानासाठी नाही.'
+            },
+            gu: {
+                tagline: 'સ્પષ્ટ માર્ગદર્શન. વધુ જાગૃતિ.',
+                hero_eyebrow: 'એઆઈ આરોગ્ય જાગૃતિ સહાયક',
+                hero_title: 'તમારા સ્વાસ્થ્યને સમજો',
+                hero_text: 'Healtify તમારી दैनिक આરોગ્ય માહિતીને સરળ ભાષામાં સમજાવે છે, જેથી તમે આત્મવિશ્વાસ સાથે આગળનું પગલું લઈ શકો.',
+                cta_primary: 'Healtifyથી પૂછો',
+                cta_secondary: 'અમારા વિશે',
+                card_title: 'તમારી સંભાળ માટે શાંત માર્ગ.',
+                card_text: 'પ્રશ્ન પૂછો, મૂળભૂત બાબતો શીખો અને સ્વાસ્થ્ય નિષ્ણાત સાથે વધુ જાણકાર संवाद માટે તૈયાર રહો.',
+                footer_note: 'જાગૃતિ માટે, નિદાન માટે નહીં.'
+            },
+            kn: {
+                tagline: 'ಸ್ಪಷ್ಟ ಮಾರ್ಗದರ್ಶನ. ಉತ್ತಮ ತಿಳುವಳಿಕೆ.',
+                hero_eyebrow: 'ಏಐ ಆರೋಗ್ಯ ಜಾಗೃತಿ ಸಹಾಯಕ',
+                hero_title: 'ನಿಮ್ಮ ಆರೋಗ್ಯವನ್ನು ಅರ್ಥಮಾಡಿಕೊಳ್ಳಿ',
+                hero_text: 'Healtify ನಿಮ್ಮ ದಿನಂಪ್ರತಿ ಆರೋಗ್ಯ ಮಾಹಿತಿ ಸುದ್ಧಿ ಮತ್ತು ಸರಳ ಭಾಷೆಯಲ್ಲಿ ವಿವರಿಸುತ್ತದೆ, ಆದ್ದರಿಂದ ನೀವು ಆತ್ಮವಿಶ್ವಾಸದಿಂದ ಮುಂದಿನ ಹೆಜ್ಜೆಯನ್ನು ಇಡಬಹುದು.',
+                cta_primary: 'Healtify ಕೇಳಿ',
+                cta_secondary: 'ನಮ್ಮ ಬಗ್ಗೆ',
+                card_title: 'ನಿಮ್ಮದನ್ನು ಕಾಳಜಿ ವಹಿಸುವ ಶಾಂತ ಮಾರ್ಗ.',
+                card_text: 'ಪ್ರಶ್ನೆಗಳನ್ನು ಕೇಳಿ, ಮೂಲ ವಿಷಯಗಳನ್ನು ಕಲಿಯಿರಿ ಮತ್ತು ಆರೋಗ್ಯ ವೃತ್ತಿಪರರೊಂದಿಗೆ ಹೆಚ್ಚು ತಿಳುವಳಿಕೆಯ ಮಾತುಕತೆಗೆ ಸಿದ್ಧರಾಗಿರಿ.',
+                footer_note: 'ಜಾಗೃತಿಗಾಗಿ, ರೋಗನಿರ್ಣಯಕ್ಕಾಗಿ ಅಲ್ಲ.'
+            }
+        };
+
+        const langSelect = document.querySelector('[data-lang-select]');
+        const i18nNodes = document.querySelectorAll('[data-i18n]');
+
+        function applyLanguage(lang) {
+            const dict = translations[lang] || translations.en;
+            i18nNodes.forEach((node) => {
+                const key = node.dataset.i18n;
+                if (dict[key]) {
+                    node.innerHTML = dict[key];
+                }
+            });
+            if (langSelect) {
+                langSelect.value = lang;
+            }
+            localStorage.setItem('healtify-lang', lang);
+        }
+
+        const savedLang = localStorage.getItem('healtify-lang') || 'en';
+        applyLanguage(savedLang);
+
+        if (langSelect) {
+            langSelect.addEventListener('change', (event) => applyLanguage(event.target.value));
+        }
+    </script>
+</body>
+
+</html>

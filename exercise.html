@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Healtify — Exercise</title>
+    <script>if (performance.getEntriesByType('navigation')[0]?.type === 'reload') { window.location.replace('index.html'); }</script>
+    <style>
+        :root {
+            --ink: #17312b;
+            --muted: #688078;
+            --mint: #dff3e9;
+            --accent: #2f8f6b;
+            --paper: #fbfdfb;
+            --line: #d9e8df
+            ;--night: #10231f
+            ;--night-card: #19352d
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            color: var(--ink);
+            background: var(--paper);
+            font-family: Inter, ui-sans-serif, system-ui, sans-serif
+        }
+
+        body.dark-mode { color: #e7f4ed; background: var(--night) }
+        body.dark-mode .links a { color: #a4bdb1 }
+        body.dark-mode .links a:hover { color: #8bd1ae }
+        body.dark-mode .item { background: var(--night-card) }
+        body.dark-mode .theme-toggle { color: #e7f4ed }
+        .theme-toggle { padding: 9px 13px; color: var(--ink); background: transparent; border: 1px solid currentColor; border-radius: 7px; font: inherit; font-size: 12px; cursor: pointer }
+
+        .page {
+            width: min(1120px, calc(100% - 48px));
+            margin: auto
+        }
+
+        nav {
+            min-height: 78px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--line)
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--ink);
+            font-weight: 750;
+            text-decoration: none
+        }
+
+        .mark {
+            width: 30px;
+            height: 30px;
+            display: grid;
+            place-items: center;
+            color: white;
+            background: var(--accent);
+            border-radius: 50%
+        }
+
+        .links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 22px
+        }
+
+        .links a {
+            color: var(--muted);
+            font-size: 14px;
+            text-decoration: none
+        }
+
+        .links a:hover {
+            color: var(--accent)
+        }
+
+        main {
+            padding: 85px 0;
+            max-width: 800px
+        }
+
+        .eyebrow {
+            color: var(--accent);
+            font-size: 12px;
+            font-weight: 750;
+            letter-spacing: .14em;
+            text-transform: uppercase
+        }
+
+        h1 {
+            margin: 14px 0 20px;
+            font-size: clamp(42px, 7vw, 72px);
+            line-height: 1;
+            letter-spacing: -.06em
+        }
+
+        main>p {
+            max-width: 650px;
+            color: var(--muted);
+            font-size: 17px;
+            line-height: 1.7
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-top: 42px
+        }
+
+        .item {
+            padding: 24px;
+            background: var(--mint);
+            border-radius: 10px
+        }
+
+        .item h2 {
+            margin: 0 0 10px;
+            font-size: 18px
+        }
+
+        .item p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.55
+        }
+
+        .guide {
+            margin-top: 64px;
+            padding-top: 42px;
+            border-top: 1px solid var(--line)
+        }
+
+        .guide h2 { margin: 0 0 14px; font-size: clamp(28px, 4vw, 42px); letter-spacing: -.04em }
+        .guide h3 { margin: 34px 0 10px; font-size: 20px }
+        .guide li { color: var(--muted); font-size: 15px; line-height: 1.7 }
+        .guide ul { margin: 0; padding-left: 22px }
+        .guide li + li { margin-top: 8px }
+        .guide a { color: var(--accent); text-decoration: none }
+        .guide a:hover { text-decoration: underline }
+
+        @media(max-width:650px) {
+            .page {
+                width: min(100% - 32px, 560px)
+            }
+
+            nav {
+                align-items: flex-start;
+                padding: 20px 0;
+                gap: 16px
+            }
+
+            .links {
+                justify-content: flex-end;
+                gap: 9px 14px
+            }
+
+            main {
+                padding: 55px 0
+            }
+
+            .grid {
+                grid-template-columns: 1fr
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page">
+        <nav><a class="brand" href="home.html"><span class="mark">+</span>Healtify</a>
+            <div class="links"><a href="home.html">AI Assistant</a><a href="nutrition.html">Nutrition</a><a
+                    href="exercise.html">Exercise</a><a href="habits.html">Healthy habits</a><a
+                    href="aboutUs.html">About us</a><button class="theme-toggle" id="theme-toggle" type="button">Dark mode</button></div>
+        </nav>
+        <main>
+            <div class="eyebrow">Movement matters</div>
+            <h1>Find movement that fits your life.</h1>
+            <p>Regular movement can support strength, mood, sleep, and everyday energy. Start gently, build consistency,
+                and choose activities you enjoy.</p>
+            <div class="grid">
+                <div class="item">
+                    <h2>Start where you are</h2>
+                    <p>A short walk or gentle stretch is a meaningful beginning.</p>
+                </div>
+                <div class="item">
+                    <h2>Mix it up</h2>
+                    <p>Balance aerobic activity, strength, flexibility, and rest across your week.</p>
+                </div>
+                <div class="item">
+                    <h2>Listen to your body</h2>
+                    <p>Adjust intensity and seek professional guidance for pain or concerning symptoms.</p>
+                </div>
+            </div>
+                        <section class="guide">
+                                <h2>Exercise and physical activity guide</h2>
+                                <h3>1. Core principles</h3>
+                                <ul>
+                                        <li><strong>Overload:</strong> Fitness improves when the body is gradually challenged beyond its current capacity.</li>
+                                        <li><strong>Progression:</strong> Increase workload slowly over time to support improvement and reduce injury risk.</li>
+                                        <li><strong>Specificity:</strong> Training adaptations match the activity, such as strength work improving force production.</li>
+                                        <li><strong>Individual differences:</strong> Age, health, experience, and goals shape how each person responds.</li>
+                                </ul>
+
+                                <h3>2. Components of fitness</h3>
+                                <ul>
+                                        <li><strong>Cardiorespiratory endurance:</strong> Aim toward 150–300 minutes of moderate activity or 75–150 minutes of vigorous activity per week, as appropriate.</li>
+                                        <li><strong>Strength and endurance:</strong> Train major muscle groups with resistance at least two days per week.</li>
+                                        <li><strong>Flexibility and mobility:</strong> Include gentle dynamic or static stretching regularly to support range of motion.</li>
+                                        <li><strong>Balance:</strong> Practice stable, controlled movement to support coordination and everyday function.</li>
+                                </ul>
+
+                                <h3>3. Training methods</h3>
+                                <ul>
+                                        <li><strong>Aerobic exercise:</strong> Walking, cycling, swimming, and other activities that challenge the heart and lungs.</li>
+                                        <li><strong>Interval training:</strong> Alternating periods of harder effort with lower-intensity recovery.</li>
+                                        <li><strong>Resistance training:</strong> Bodyweight, bands, free weights, or machines used to challenge muscles.</li>
+                                        <li><strong>Functional training:</strong> Exercises that build core stability, coordination, and useful movement patterns.</li>
+                                </ul>
+
+                                <h3>4. Different needs</h3>
+                                <ul>
+                                        <li><strong>Children and adolescents:</strong> Emphasize enjoyable daily movement, variety, and bone-strengthening activities.</li>
+                                        <li><strong>Pregnancy:</strong> Activity should be adapted to the individual and discussed with a healthcare professional when needed.</li>
+                                        <li><strong>Older adults:</strong> Prioritize balance, mobility, fall prevention, and preserving muscle strength.</li>
+                                        <li><strong>Chronic conditions:</strong> A personalized plan may make low-impact or supervised activity more appropriate.</li>
+                                </ul>
+
+                                <h3>5. Recovery and safety</h3>
+                                <ul>
+                                        <li><strong>Warm up and cool down:</strong> Prepare gradually and allow your body to return to its resting state.</li>
+                                        <li><strong>Rest:</strong> Sleep and recovery days support tissue repair and help manage training load.</li>
+                                        <li><strong>Hydration:</strong> Replace fluids during activity, especially in heat or during longer sessions.</li>
+                                        <li><strong>Injury prevention:</strong> Use controlled technique, avoid sudden workload increases, and stop for concerning pain.</li>
+                                </ul>
+
+                                <h3>6. Practical tracking</h3>
+                                <ul>
+                                        <li><strong>FITT:</strong> Consider frequency, intensity, time, and type when planning activity.</li>
+                                        <li><strong>Track progress:</strong> Record sessions, sets, repetitions, distance, or perceived effort to notice gradual changes.</li>
+                                </ul>
+
+                                <h3>References and resources</h3>
+                                <ul>
+                                        <li><a href="https://www.who.int/news-room/fact-sheets/detail/physical-activity" target="_blank" rel="noopener">WHO Physical Activity Guidelines</a></li>
+                                        <li><a href="https://www.cdc.gov/physicalactivity/" target="_blank" rel="noopener">CDC Physical Activity Basics</a></li>
+                                        <li><a href="https://www.acsm.org/" target="_blank" rel="noopener">American College of Sports Medicine</a></li>
+                                        <li><a href="https://www.niddk.nih.gov/health-information/weight-management/keep-active" target="_blank" rel="noopener">NIH Physical Fitness Resources</a></li>
+                                </ul>
+                        </section>
+        </main>
+    </div>
+</body>
+<script src="index.js"></script>
+
+</html>

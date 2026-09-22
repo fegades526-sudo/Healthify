@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Healtify — Nutrition</title>
+    <script>
+        if (performance.getEntriesByType('navigation')[0]?.type === 'reload') {
+            window.location.replace('index.html');
+        }
+    </script>
+    <style>
+        :root {
+            --ink: #17312b;
+            --muted: #688078;
+            --mint: #dff3e9;
+            --accent: #2f8f6b;
+            --paper: #fbfdfb;
+            --line: #d9e8df;
+            --night: #10231f;
+            --night-card: #19352d;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            color: var(--ink);
+            background: var(--paper);
+            font-family: Inter, ui-sans-serif, system-ui, sans-serif
+        }
+
+        .page {
+            width: min(1120px, calc(100% - 48px));
+            margin: auto
+        }
+
+        nav {
+            min-height: 78px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--line)
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--ink);
+            font-weight: 750;
+            text-decoration: none
+        }
+
+        .mark {
+            width: 30px;
+            height: 30px;
+            display: grid;
+            place-items: center;
+            color: white;
+            background: var(--accent);
+            border-radius: 50%
+        }
+
+        .links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 22px
+        }
+
+        .links a {
+            color: var(--muted);
+            font-size: 14px;
+            text-decoration: none
+        }
+
+        .links a:hover {
+            color: var(--accent)
+        }
+
+        main {
+            padding: 85px 0;
+            max-width: 800px
+        }
+
+        .eyebrow {
+            color: var(--accent);
+            font-size: 12px;
+            font-weight: 750;
+            letter-spacing: .14em;
+            text-transform: uppercase
+        }
+
+        h1 {
+            margin: 14px 0 20px;
+            font-size: clamp(42px, 7vw, 72px);
+            line-height: 1;
+            letter-spacing: -.06em
+        }
+
+        main>p {
+            max-width: 650px;
+            color: var(--muted);
+            font-size: 17px;
+            line-height: 1.7
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-top: 42px
+        }
+
+        .item {
+            padding: 24px;
+            background: var(--mint);
+            border-radius: 10px
+        }
+
+        .item h2 {
+            margin: 0 0 10px;
+            font-size: 18px
+        }
+
+        .item p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.55
+        }
+
+        .guide {
+            margin-top: 64px;
+            padding-top: 42px;
+            border-top: 1px solid var(--line)
+        }
+
+        .guide h2 {
+            margin: 0 0 14px;
+            font-size: clamp(28px, 4vw, 42px);
+            letter-spacing: -.04em
+        }
+
+        .guide h3 {
+            margin: 34px 0 10px;
+            font-size: 20px
+        }
+
+        .guide p,
+        .guide li {
+            color: var(--muted);
+            font-size: 15px;
+            line-height: 1.7
+        }
+
+        .guide ul {
+            margin: 0;
+            padding-left: 22px
+        }
+
+        .guide li + li {
+            margin-top: 8px
+        }
+
+        .references a {
+            color: var(--accent);
+            text-decoration: none
+        }
+
+        .references a:hover {
+            text-decoration: underline
+        }
+
+        @media(max-width:650px) {
+            .page {
+                width: min(100% - 32px, 560px)
+            }
+
+            nav {
+                align-items: flex-start;
+                padding: 20px 0;
+                gap: 16px
+            }
+
+            .links {
+                justify-content: flex-end;
+                gap: 9px 14px
+            }
+
+            main {
+                padding: 55px 0
+            }
+
+            .grid {
+                grid-template-columns: 1fr
+            }
+        }
+        body.dark-mode { color: #e7f4ed; background: var(--night); }
+        body.dark-mode .links a { color: #a4bdb1; }
+        body.dark-mode .links a:hover { color: #8bd1ae; }
+        body.dark-mode .item { background: var(--night-card); }
+        body.dark-mode .theme-toggle { color: #e7f4ed; }
+        .theme-toggle { padding: 9px 13px; color: var(--ink); background: transparent; border: 1px solid currentColor; border-radius: 7px; font: inherit; font-size: 12px; cursor: pointer; }
+    </style>
+</head>
+
+<body>
+    <div class="page">
+        <nav><a class="brand" href="home.html"><span class="mark">+</span>Healtify</a>
+            <div class="links"><a href="home.html">AI Assistant</a><a href="nutrition.html">Nutrition</a><a
+                    href="exercise.html">Exercise</a><a href="habits.html">Healthy habits</a><a
+                    href="aboutUs.html">About us</a><button class="theme-toggle" id="theme-toggle" type="button">Dark mode</button></div>
+        </nav>
+        <main>
+            <div class="eyebrow">Nutrition basics</div>
+            <h1>Your Guide to Better Nutrition.</h1>
+            <p>Understanding the fundamentals of nutrition can help you make informed choices about what you eat and how it affects your health.</p>
+            
+            <div class="grid">
+                <div class="item">
+                    <h2>Build a balanced plate</h2>
+                    <p>Include vegetables or fruit, a protein source, and a satisfying source of carbohydrates.</p>
+                </div>
+                <div class="item">
+                    <h2>Choose variety</h2>
+                    <p>Different foods provide different nutrients, so variety matters more than perfection.</p>
+                </div>
+                <div class="item">
+                    <h2>Make it practical</h2>
+                    <p>Keep nourishing options nearby and choose habits you can maintain in real life.</p>
+                </div>
+            </div>
+            <section class="guide">
+                <h2>Human nutrition: core principles</h2>
+
+                <h3>1. Healthy nutrition fundamentals</h3>
+                <ul>
+                    <li><strong>Adequacy:</strong> Meet your macro- and micronutrient needs without regularly exceeding your energy needs.</li>
+                    <li><strong>Balance:</strong> Include appropriate proportions of carbohydrates, proteins, and fats.</li>
+                    <li><strong>Moderation:</strong> Limit added sugars, saturated fats, and sodium.</li>
+                    <li><strong>Diversity:</strong> Eat a wide variety of foods across and within food groups.</li>
+                </ul>
+
+                <h3>2. Macronutrients</h3>
+                <ul>
+                    <li><strong>Carbohydrates:</strong> A primary energy source found in whole grains, legumes, fruits, and vegetables. Choose minimally processed sources most often.</li>
+                    <li><strong>Proteins:</strong> Support growth, repair, and many body processes. Include a mix of plant and animal sources where appropriate.</li>
+                    <li><strong>Fats:</strong> Support cell membranes and hormone production. Emphasize unsaturated fats from fish, nuts, seeds, and vegetable oils.</li>
+                    <li><strong>Water:</strong> Supports metabolism, temperature regulation, digestion, and many other essential processes.</li>
+                </ul>
+
+                <h3>3. Micronutrients</h3>
+                <ul>
+                    <li><strong>Vitamins:</strong> Vitamins A, B-complex, C, D, E, and K support vision, immunity, neurological function, and metabolism.</li>
+                    <li><strong>Minerals:</strong> Iron, zinc, calcium, iodine, potassium, and magnesium support blood, bones, nerves, and cardiovascular function.</li>
+                    <li><strong>Food first:</strong> A diverse diet is usually the best foundation. Supplements should be discussed with a healthcare professional.</li>
+                </ul>
+
+                <h3>4. Different needs at different stages</h3>
+                <ul>
+                    <li><strong>Infants and children:</strong> Growing bodies need nutrient-dense foods that provide iron, calcium, protein, and vitamins.</li>
+                    <li><strong>Pregnancy and lactation:</strong> Requirements for nutrients such as iron, folate, vitamin D, calcium, and protein may increase.</li>
+                    <li><strong>Older adults:</strong> Pay particular attention to calcium, vitamin D, vitamin B12, protein, and fiber.</li>
+                    <li><strong>Special dietary needs:</strong> Malnutrition and medical conditions require individualized guidance from a qualified professional.</li>
+                </ul>
+
+                <h3>5. Dietary safety</h3>
+                <ul>
+                    <li><strong>Added sugars:</strong> Keep added sugars low and prioritize naturally sweet foods such as fruit.</li>
+                    <li><strong>Sodium:</strong> Compare labels and choose more fresh foods, especially when managing blood pressure.</li>
+                    <li><strong>Fats:</strong> Avoid industrial trans fats and replace some saturated fats with unsaturated alternatives.</li>
+                    <li><strong>Food safety:</strong> Wash hands, prevent cross-contamination, cook foods thoroughly, and store them safely.</li>
+                </ul>
+
+                <h3>6. Practical tools</h3>
+                <ul>
+                    <li><strong>Healthy plate:</strong> Build meals around vegetables or fruit, whole grains, and a healthy protein.</li>
+                    <li><strong>Meal planning:</strong> Prepare simple options in advance and use steaming, baking, or boiling more often than frying.</li>
+                    <li><strong>Nutrition tracking:</strong> Use reputable food databases when you need detailed nutrient information.</li>
+                </ul>
+
+                <h3>References and resources</h3>
+                <ul class="references">
+                    <li><a href="https://www.who.int/health-topics/nutrition" target="_blank" rel="noopener">WHO Nutrition</a></li>
+                    <li><a href="https://www.cdc.gov/nutrition/" target="_blank" rel="noopener">CDC Nutrition</a></li>
+                    <li><a href="https://nutritionsource.hsph.harvard.edu/" target="_blank" rel="noopener">Harvard Nutrition Source</a></li>
+                    <li><a href="https://www.nutrition.gov" target="_blank" rel="noopener">Nutrition.gov</a></li>
+                </ul>
+            </section>
+        </main>
+    </div>
+    <script src="index.js"></script>
+</body>
+
+</html>

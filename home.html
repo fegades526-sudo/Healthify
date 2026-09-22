@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Healtify — Health Assistant</title>
+	<script>
+		if (performance.getEntriesByType('navigation')[0]?.type === 'reload') {
+			window.location.replace('index.html');
+		}
+	</script>
+	<style>
+		:root {
+			--ink: #17312b;
+			--muted: #688078;
+			--mint: #dff3e9;
+			--accent: #2f8f6b;
+			--paper: #fbfdfb;
+			--line: #d9e8df;
+			--night: #10231f;
+			--night-card: #19352d;
+		}
+
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			margin: 0;
+			color: var(--ink);
+			background: radial-gradient(circle at top left, rgba(73, 199, 143, 0.14), transparent 28%), var(--paper);
+			font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+			transition: color .2s ease, background .2s ease;
+		}
+
+		.page {
+			width: min(1120px, calc(100% - 48px));
+			margin: auto;
+		}
+
+		nav {
+			min-height: 78px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			border-bottom: 1px solid var(--line);
+		}
+
+		.brand {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			color: var(--ink);
+			font-weight: 750;
+			text-decoration: none;
+			transition: transform .2s ease;
+		}
+
+		.brand:hover {
+			transform: translateY(-1px);
+		}
+
+		.mark {
+			width: 30px;
+			height: 30px;
+			display: grid;
+			place-items: center;
+			color: white;
+			background: linear-gradient(135deg, var(--accent), #44be96);
+			border-radius: 50%;
+			font-size: 17px;
+			box-shadow: 0 12px 20px rgba(47, 143, 107, 0.25);
+		}
+
+		.links {
+			display: flex;
+			gap: 24px;
+			align-items: center;
+		}
+
+		.links a {
+			color: var(--muted);
+			font-size: 14px;
+			text-decoration: none;
+			transition: color .2s ease, transform .2s ease;
+		}
+
+		.links a:hover,
+		.links a.active {
+			color: var(--accent);
+			transform: translateY(-1px);
+		}
+
+		.theme-toggle,
+		.lang-select,
+		button {
+			transition: transform .2s ease, box-shadow .2s ease, opacity .2s ease;
+		}
+
+		.theme-toggle {
+			padding: 9px 13px;
+			color: var(--ink);
+			background: rgba(255, 255, 255, 0.45);
+			border: 1px solid currentColor;
+			border-radius: 7px;
+			font: inherit;
+			font-size: 12px;
+			cursor: pointer;
+		}
+
+		.theme-toggle:hover,
+		button:hover,
+		.lang-select:hover {
+			transform: translateY(-1px);
+		}
+
+		.lang-switcher {
+			display: flex;
+			align-items: center;
+			gap: 6px;
+		}
+
+		.lang-select {
+			padding: 8px 10px;
+			border: 1px solid rgba(23, 49, 43, .18);
+			border-radius: 8px;
+			background: rgba(255, 255, 255, 0.5);
+			color: inherit;
+			font: inherit;
+			font-size: 12px;
+			cursor: pointer;
+		}
+
+		body.dark-mode {
+			color: #e7f4ed;
+			background: radial-gradient(circle at top left, rgba(80, 180, 143, 0.12), transparent 28%), var(--night);
+		}
+
+		body.dark-mode .links a {
+			color: #a4bdb1;
+		}
+
+		body.dark-mode .links a:hover,
+		body.dark-mode .links a.active {
+			color: #8bd1ae;
+		}
+
+		body.dark-mode .theme-toggle {
+			color: #e7f4ed;
+		}
+
+		body.dark-mode .chat {
+			background: var(--night-card);
+			border-color: #315348;
+		}
+
+		body.dark-mode .chat-head,
+		body.dark-mode .assistant {
+			background: #23483c;
+		}
+
+		body.dark-mode input {
+			color: #e7f4ed;
+			background: #102b24;
+			border-color: #315348;
+		}
+
+		body.dark-mode .lang-select {
+			background: rgba(16, 35, 31, 0.8);
+			border-color: rgba(255, 255, 255, 0.15);
+		}
+
+		main {
+			padding: 70px 0 90px;
+		}
+
+		.intro {
+			max-width: 680px;
+			margin-bottom: 34px;
+			animation: riseIn .7s ease both;
+		}
+
+		.eyebrow {
+			color: var(--accent);
+			font-size: 12px;
+			font-weight: 750;
+			letter-spacing: .14em;
+			text-transform: uppercase;
+		}
+
+		h1 {
+			margin: 14px 0 14px;
+			font-size: clamp(40px, 6vw, 66px);
+			line-height: 1;
+			letter-spacing: -.06em;
+			animation: riseIn .75s ease both;
+		}
+
+		.intro p {
+			max-width: 580px;
+			color: var(--muted);
+			font-size: 17px;
+			line-height: 1.65;
+		}
+
+		.chat {
+			max-width: 760px;
+			overflow: hidden;
+			background: white;
+			border: 1px solid var(--line);
+			border-radius: 14px;
+			box-shadow: 0 22px 60px rgba(23, 49, 43, .08);
+			animation: riseIn .8s ease .1s both;
+		}
+
+		.chat-head {
+			padding: 20px 24px;
+			background: linear-gradient(135deg, var(--mint), rgba(255, 255, 255, 0.7));
+			font-weight: 750;
+		}
+
+		.conversation {
+			padding: 26px 24px 8px;
+		}
+
+		.message {
+			max-width: 82%;
+			margin-bottom: 18px;
+			padding: 14px 16px;
+			border-radius: 12px;
+			font-size: 14px;
+			line-height: 1.55;
+			animation: messageIn .35s ease;
+		}
+
+		.assistant {
+			background: #f1f7f3;
+		}
+
+		.user {
+			margin-left: auto;
+			color: white;
+			background: linear-gradient(135deg, var(--ink), #295a4b);
+		}
+
+		form {
+			display: flex;
+			gap: 10px;
+			padding: 16px 24px 24px;
+		}
+
+		input {
+			min-width: 0;
+			flex: 1;
+			padding: 14px;
+			border: 1px solid var(--line);
+			border-radius: 8px;
+			color: var(--ink);
+			font: inherit;
+			transition: border-color .2s ease, box-shadow .2s ease;
+		}
+
+		input:focus {
+			outline: none;
+			border-color: rgba(47, 143, 107, 0.7);
+			box-shadow: 0 0 0 3px rgba(47, 143, 107, 0.12);
+		}
+
+		button {
+			padding: 0 20px;
+			color: white;
+			background: linear-gradient(135deg, var(--accent), #42b886);
+			border: 0;
+			border-radius: 8px;
+			font: inherit;
+			font-weight: 750;
+			cursor: pointer;
+			box-shadow: 0 12px 20px rgba(47, 143, 107, .18);
+		}
+
+		.disclaimer {
+			margin: 18px 0 0;
+			color: var(--muted);
+			font-size: 12px;
+		}
+
+		@keyframes riseIn {
+			from {
+				opacity: 0;
+				transform: translateY(18px);
+			}
+
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+
+		@keyframes messageIn {
+			from {
+				opacity: 0;
+				transform: translateY(8px) scale(.98);
+			}
+
+			to {
+				opacity: 1;
+				transform: translateY(0) scale(1);
+			}
+		}
+
+		@media (max-width: 650px) {
+			.page {
+				width: min(100% - 32px, 560px);
+			}
+
+			nav {
+				align-items: flex-start;
+				padding: 20px 0;
+				gap: 18px;
+			}
+
+			.links {
+				flex-wrap: wrap;
+				justify-content: flex-end;
+				gap: 10px 16px;
+			}
+
+			main {
+				padding-top: 48px;
+			}
+
+			form {
+				flex-direction: column;
+			}
+
+			button {
+				min-height: 46px;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<div class="page">
+		<nav>
+			<a class="brand" href="home.html"><span class="mark">+</span>Healtify</a>
+			<div class="links">
+				<a class="active" href="home.html" data-i18n="nav_assistant">AI Assistant</a>
+				<a href="nutrition.html" data-i18n="nav_nutrition">Nutrition</a>
+				<a href="exercise.html" data-i18n="nav_exercise">Exercise</a>
+				<a href="habits.html" data-i18n="nav_habits">Healthy habits</a>
+				<a href="aboutUs.html" data-i18n="nav_about">About us</a>
+				<div class="lang-switcher" aria-label="Language selector">
+					<select class="lang-select" aria-label="Select language" data-lang-select>
+						<option value="en">English</option>
+						<option value="hi">हिन्दी</option>
+						<option value="bn">বাংলা</option>
+						<option value="ta">தமிழ்</option>
+						<option value="te">తెలుగు</option>
+						<option value="mr">मराठी</option>
+						<option value="gu">ગુજરાતી</option>
+						<option value="kn">ಕನ್ನಡ</option>
+					</select>
+				</div>
+				<button class="theme-toggle" id="theme-toggle" type="button">Dark mode</button>
+			</div>
+		</nav>
+		<main>
+			<section class="intro">
+				<div class="eyebrow" data-i18n="intro_eyebrow">Your health, made clearer</div>
+				<h1 data-i18n="intro_title">Ask a better health question.</h1>
+				<p data-i18n="intro_text">Use the Healtify assistant to understand everyday health topics and prepare
+					for more informed conversations with a healthcare professional.</p>
+			</section>
+			<section class="chat" aria-label="Healtify AI chat assistant">
+				<div class="chat-head" data-i18n="chat_head">Healtify AI assistant</div>
+				<div class="conversation" id="conversation">
+					<div class="message assistant" data-i18n="chat_welcome">Hi, I’m Healtify. What health topic would
+						you like to understand today?</div>
+				</div>
+				<form id="chat-form">
+					<input id="question" type="text" data-i18n-placeholder="chat_placeholder"
+						placeholder="Ask about a health topic..." aria-label="Your health question" required />
+					<button type="submit" data-i18n="chat_send">Send</button>
+				</form>
+			</section>
+			<p class="disclaimer" data-i18n="disclaimer">Healtify provides general <b>awareness</b> information, <b>not
+					diagnosis</b> or emergency medical advice.</p>
+		</main>
+	</div>
+	<script>
+		const translations = {
+			en: {
+				nav_assistant: 'AI Assistant',
+				nav_nutrition: 'Nutrition',
+				nav_exercise: 'Exercise',
+				nav_habits: 'Healthy habits',
+				nav_about: 'About us',
+				intro_eyebrow: 'Your health, made clearer',
+				intro_title: 'Ask a better health question.',
+				intro_text: 'Use the Healtify assistant to understand everyday health topics and prepare for more informed conversations with a healthcare professional.',
+				chat_head: 'Healtify AI assistant',
+				chat_welcome: 'Hi, I’m Healtify. What health topic would you like to understand today?',
+				chat_placeholder: 'Ask about a health topic...',
+				chat_send: 'Send',
+				disclaimer: 'Healtify provides general <b>awareness</b> information, <b>not diagnosis</b> or emergency medical advice.'
+			},
+			hi: {
+				nav_assistant: 'एआई सहायक',
+				nav_nutrition: 'पोषण',
+				nav_exercise: 'व्यायाम',
+				nav_habits: 'स्वास्थ्यकर आदतें',
+				nav_about: 'हमारे बारे में',
+				intro_eyebrow: 'आपका स्वास्थ्य, अधिक स्पष्ट',
+				intro_title: 'बेहतर स्वास्थ्य प्रश्न पूछें।',
+				intro_text: 'हर रोज़ के स्वास्थ्य विषयों को समझने के लिए Healtify सहायक का उपयोग करें और स्वास्थ्य पेशेवर के साथ अधिक सूचित बातचीत के लिए तैयार रहें।',
+				chat_head: 'Healtify एआई सहायक',
+				chat_welcome: 'नमस्ते, मैं Healtify हूँ। आज आप किस स्वास्थ्य विषय के बारे में जानना चाहते हैं?',
+				chat_placeholder: 'स्वास्थ्य विषय के बारे में पूछें...',
+				chat_send: 'भेजें',
+				disclaimer: 'Healtify सामान्य <b>जागरूकता</b> जानकारी देता है, <b>निदान</b> या आपातकालीन मेडिकल सलाह नहीं।'
+			},
+			bn: {
+				nav_assistant: 'এআই সহকারী',
+				nav_nutrition: 'পুষ্টি',
+				nav_exercise: 'ব্যায়াম',
+				nav_habits: 'স্বাস্থ্যকর অভ্যাস',
+				nav_about: 'আমাদের সম্পর্কে',
+				intro_eyebrow: 'আপনার স্বাস্থ্য, আরও পরিষ্কার',
+				intro_title: 'ভালো স্বাস্থ্য প্রশ্ন করুন।',
+				intro_text: 'দৈনন্দিন স্বাস্থ্য বিষয় বুঝতে Healtify সহকারী ব্যবহার করুন এবং স্বাস্থ্য পেশাদারের সাথে আরও অবগত কথোপকথনের জন্য প্রস্তুত হন।',
+				chat_head: 'Healtify এআই সহকারী',
+				chat_welcome: 'হাই, আমি Healtify। আজ আপনি কোন স্বাস্থ্য বিষয় সম্পর্কে জানতে চান?',
+				chat_placeholder: 'স্বাস্থ্য বিষয় সম্পর্কে জিজ্ঞাসা করুন...',
+				chat_send: 'পাঠান',
+				disclaimer: 'Healtify সাধারণ <b>সচেতনতা</b> তথ্য প্রদান করে, <b>রোগ নির্ণয়</b> বা জরুরি চিকিৎসা পরামর্শ নয়।'
+			},
+			ta: {
+				nav_assistant: 'ஏஐ உதவியாளர்',
+				nav_nutrition: 'ஊட்டச்சத்து',
+				nav_exercise: 'உடற்பயிற்சி',
+				nav_habits: 'சுகாதார பழக்கங்கள்',
+				nav_about: 'எங்களைப் பற்றி',
+				intro_eyebrow: 'உங்கள் உடல், இன்னும் தெளிவாக',
+				intro_title: 'மிகச் சிறந்த சுகாதாரக் கேள்வியை கேளுங்கள்.',
+				intro_text: 'Healtify உதவியாளரை பயன்படுத்தி தினசரி சுகாதார தலைப்புகளைப் புரிந்து, சுகாதார நிபுணருடன் மேலும் தகவலறிந்த உரையாடலுக்கு தயாராகுங்கள்.',
+				chat_head: 'Healtify ஏஐ உதவியாளர்',
+				chat_welcome: 'வணக்கம், நான் Healtify. இன்று எந்த சுகாதார தலைப்பைப் பற்றி அறிய விரும்புகிறீர்கள்?',
+				chat_placeholder: 'சுகாதார தலைப்பைப் பற்றி கேளுங்கள்...',
+				chat_send: 'அனுப்பு',
+				disclaimer: 'Healtify பொதுவான <b>விழிப்புணர்வு</b> தகவலை வழங்குகிறது, <b>நோயறிதல்</b> அல்லது அவசர மருத்துவ ஆலோசனை அல்ல.'
+			},
+			te: {
+				nav_assistant: 'ఏఐ సహాయకుడు',
+				nav_nutrition: 'పోషకాహారం',
+				nav_exercise: 'వ్యాయాం',
+				nav_habits: 'ఆరోగ్యకర అలవాట్లు',
+				nav_about: 'మా గురించి',
+				intro_eyebrow: 'మీ ఆరోగ్యం, మరింత స్పష్టంగా',
+				intro_title: 'మంచి ఆరోగ్య ప్రశ్నను అడగండి.',
+				intro_text: 'Healtify సహాయకుని సహాయంతో రోజువారీ ఆరోగ్య అంశాలను అర్థం చేసుకోండి మరియు ఆరోగ్య నిపుణులతో మరింత సమాచారంతో మాట్లాడేందుకు సిద్ధంగా ఉండండి.',
+				chat_head: 'Healtify ఏఐ సహాయకుడు',
+				chat_welcome: 'హాయ్, నేను Healtify. మీకు 오늘 ఏ ఆరోగ్య అంశం గురించి తెలుసుకోవాలనుకుంటున్నారు?',
+				chat_placeholder: 'ఆరోగ్య అంశం గురించి అడగండి...',
+				chat_send: 'పంపించు',
+				disclaimer: 'Healtify సాధారణ <b>అవగాహన</b> సమాచారాన్ని అందిస్తుంది, <b>నిర్ధారణ</b> లేదా అత్యవసర వైద్య సలహా కాదు.'
+			},
+			mr: {
+				nav_assistant: 'एआय सहाय्यक',
+				nav_nutrition: 'पोषण',
+				nav_exercise: 'व्यायाम',
+				nav_habits: 'आरोग्यदायी सवयी',
+				nav_about: 'आमच्याबद्दल',
+				intro_eyebrow: 'तुमचं आरोग्य, अधिक स्पष्ट',
+				intro_title: 'चांगला आरोग्य प्रश्न विचारा.',
+				intro_text: 'Healtify सहाय्यक वापरून रोजच्या आरोग्य विषयांचे आकलन करा आणि आरोग्य तज्ज्ञांसोबत अधिक माहितीपूर्ण संभाषणासाठी तयार राहा.',
+				chat_head: 'Healtify एआय सहाय्यक',
+				chat_welcome: 'नमस्कार, मी Healtify आहे. आज तुम्हाला कोणत्या आरोग्य विषयाबद्दल जाणून घ्यायचे आहे?',
+				chat_placeholder: 'आरोग्य विषयावर विचारा...',
+				chat_send: 'पाठवा',
+				disclaimer: 'Healtify सामान्य <b>जागरूकता</b> माहिती देते, <b>निदान</b> किंवा आपत्कालीन वैद्यकीय सल्ला देत नाही.'
+			},
+			gu: {
+				nav_assistant: 'એઆઈ સહાયક',
+				nav_nutrition: 'પોષણ',
+				nav_exercise: 'व्यવસાય',
+				nav_habits: 'સ્વાસ્થ્યકારક આદતો',
+				nav_about: 'અમારા વિશે',
+				intro_eyebrow: 'તમારું સ્વાસ્થ્ય, વધુ સ્પષ્ટ',
+				intro_title: 'સારો આરોગ્ય પ્રશ્ન પૂછો.',
+				intro_text: 'Healtify સહાયકનો ઉપયોગ કરીને દૈનિક સ્વાસ્થ્ય મુદ્દાઓ સમજો અને સ્વાસ્થ્ય નિષ્ણાત સાથે વધુ જાણકાર વાતચીત માટે તૈયાર રહો.',
+				chat_head: 'Healtify એઆઈ સહાયક',
+				chat_welcome: 'હાય, હું Healtify છું. આજે તમે કયા સ્વાસ્થ્ય વિષય વિશે જાણવા માંગો છો?',
+				chat_placeholder: 'સ્વાસ્થ્ય વિષય વિશે પૂછો...',
+				chat_send: 'મોકલો',
+				disclaimer: 'Healtify સામાન્ય <b>જાગૃતિ</b> માહિતી આપે છે, <b>નિદાન</b> અથવા આપાતકાલીન മെഡિકલ સલાહ નથી.'
+			},
+			kn: {
+				nav_assistant: 'ಏಐ ಸಹಾಯಕ',
+				nav_nutrition: 'ಪೋಷಣೆ',
+				nav_exercise: 'ವ್ಯಾಯಾಮ',
+				nav_habits: 'ಆರೋಗ್ಯಕರ ಅಭ್ಯಾಸಗಳು',
+				nav_about: 'ನಮ್ಮ ಬಗ್ಗೆ',
+				intro_eyebrow: 'ನಿಮ್ಮ ಆರೋಗ್ಯ, ಇನ್ನಷ್ಟು ಸ್ಪಷ್ಟ',
+				intro_title: 'ಉತ್ತಮ ಆರೋಗ್ಯ ಪ್ರಶ್ನೆಯನ್ನು ಕೇಳಿ.',
+				intro_text: 'Healtify ಸಹಾಯಕವನ್ನು ಬಳಸಿಕೊಂಡು ದಿನನಿತ್ಯದ ಆರೋಗ್ಯ ವಿಷಯಗಳನ್ನು ಅರ್ಥಮಾಡಿಕೊಳ್ಳಿ ಮತ್ತು ಆರೋಗ್ಯ ವೃತ್ತಿಪರರೊಂದಿಗೆ ಹೆಚ್ಚು ತಿಳುವಳಿಕೆಯ ಮಾತುಕತೆಗೆ ಸಿದ್ಧರಾಗಿರಿ.',
+				chat_head: 'Healtify ಏಐ ಸಹಾಯಕ',
+				chat_welcome: 'ಹಾಯ್, ನಾನು Healtify. ಇಂದು ನೀವು ಯಾವ ಆರೋಗ್ಯ ವಿಷಯದ ಬಗ್ಗೆ ತಿಳಿಯಲು ಬಯಸುತ್ತೀರಿ?',
+				chat_placeholder: 'ಆರೋಗ್ಯ ವಿಷಯದ ಬಗ್ಗೆ ಕೇಳಿ...',
+				chat_send: 'ಕಳುಹಿಸಿ',
+				disclaimer: 'Healtify ಸಾಮಾನ್ಯ <b>ಜಾಗೃತಿ</b> ಮಾಹಿತಿಯನ್ನು ನೀಡುತ್ತದೆ, <b>ರೋಗನಿರ್ಣಯ</b> ಅಥವಾ ಅವಶ್ಯಕ ವೈದ್ಯಕೀಯ ಸಲಹೆ ಅಲ್ಲ.'
+			}
+		};
+
+		const langSelect = document.querySelector('[data-lang-select]');
+		const i18nNodes = document.querySelectorAll('[data-i18n]');
+
+		function applyLanguage(lang) {
+			const dict = translations[lang] || translations.en;
+			i18nNodes.forEach((node) => {
+				const key = node.dataset.i18n;
+				if (dict[key]) {
+					node.innerHTML = dict[key];
+				}
+			});
+			if (langSelect) {
+				langSelect.value = lang;
+			}
+			localStorage.setItem('healtify-lang', lang);
+		}
+
+		const savedLang = localStorage.getItem('healtify-lang') || 'en';
+		applyLanguage(savedLang);
+
+		if (langSelect) {
+			langSelect.addEventListener('change', (event) => applyLanguage(event.target.value));
+		}
+	</script>
+	<script src="index.js"></script>
+</body>
+
+</html>

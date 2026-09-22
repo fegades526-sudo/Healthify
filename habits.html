@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Healtify — Healthy Habits</title>
+    <script>if (performance.getEntriesByType('navigation')[0]?.type === 'reload') { window.location.replace('index.html'); }</script>
+    <style>
+        :root {
+            --ink: #17312b;
+            --muted: #688078;
+            --mint: #dff3e9;
+            --accent: #2f8f6b;
+            --paper: #fbfdfb;
+            --line: #d9e8df
+            ;--night: #10231f
+            ;--night-card: #19352d
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            color: var(--ink);
+            background: var(--paper);
+            font-family: Inter, ui-sans-serif, system-ui, sans-serif
+        }
+
+        body.dark-mode { color: #e7f4ed; background: var(--night) }
+        body.dark-mode .links a { color: #a4bdb1 }
+        body.dark-mode .links a:hover { color: #8bd1ae }
+        body.dark-mode .item { background: var(--night-card) }
+        body.dark-mode .theme-toggle { color: #e7f4ed }
+        .theme-toggle { padding: 9px 13px; color: var(--ink); background: transparent; border: 1px solid currentColor; border-radius: 7px; font: inherit; font-size: 12px; cursor: pointer }
+
+        .page {
+            width: min(1120px, calc(100% - 48px));
+            margin: auto
+        }
+
+        nav {
+            min-height: 78px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--line)
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--ink);
+            font-weight: 750;
+            text-decoration: none
+        }
+
+        .mark {
+            width: 30px;
+            height: 30px;
+            display: grid;
+            place-items: center;
+            color: white;
+            background: var(--accent);
+            border-radius: 50%
+        }
+
+        .links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 22px
+        }
+
+        .links a {
+            color: var(--muted);
+            font-size: 14px;
+            text-decoration: none
+        }
+
+        .links a:hover {
+            color: var(--accent)
+        }
+
+        main {
+            padding: 85px 0;
+            max-width: 800px
+        }
+
+        .eyebrow {
+            color: var(--accent);
+            font-size: 12px;
+            font-weight: 750;
+            letter-spacing: .14em;
+            text-transform: uppercase
+        }
+
+        h1 {
+            margin: 14px 0 20px;
+            font-size: clamp(42px, 7vw, 72px);
+            line-height: 1;
+            letter-spacing: -.06em
+        }
+
+        main>p {
+            max-width: 650px;
+            color: var(--muted);
+            font-size: 17px;
+            line-height: 1.7
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-top: 42px
+        }
+
+        .item {
+            padding: 24px;
+            background: var(--mint);
+            border-radius: 10px
+        }
+
+        .item h2 {
+            margin: 0 0 10px;
+            font-size: 18px
+        }
+
+        .item p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.55
+        }
+
+        .guide {
+            margin-top: 64px;
+            padding-top: 42px;
+            border-top: 1px solid var(--line)
+        }
+
+        .guide h2 { margin: 0 0 14px; font-size: clamp(28px, 4vw, 42px); letter-spacing: -.04em }
+        .guide h3 { margin: 34px 0 10px; font-size: 20px }
+        .guide li { color: var(--muted); font-size: 15px; line-height: 1.7 }
+        .guide ul { margin: 0; padding-left: 22px }
+        .guide li + li { margin-top: 8px }
+        .guide a { color: var(--accent); text-decoration: none }
+        .guide a:hover { text-decoration: underline }
+
+        @media(max-width:650px) {
+            .page {
+                width: min(100% - 32px, 560px)
+            }
+
+            nav {
+                align-items: flex-start;
+                padding: 20px 0;
+                gap: 16px
+            }
+
+            .links {
+                justify-content: flex-end;
+                gap: 9px 14px
+            }
+
+            main {
+                padding: 55px 0
+            }
+
+            .grid {
+                grid-template-columns: 1fr
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page">
+        <nav><a class="brand" href="home.html"><span class="mark">+</span>Healtify</a>
+            <div class="links"><a href="home.html">AI Assistant</a><a href="nutrition.html">Nutrition</a><a
+                    href="exercise.html">Exercise</a><a href="habits.html">Healthy habits</a><a
+                    href="aboutUs.html">About us</a><button class="theme-toggle" id="theme-toggle" type="button">Dark mode</button></div>
+        </nav>
+        <main>
+            <div class="eyebrow">Healthy habits</div>
+            <h1>Habits to improve your wellbeing</h1>
+            <p>Healthy routines are built from small actions repeated with patience. Focus on one manageable change,
+                then let it become part of your day.</p>
+            <div class="grid">
+                <div class="item">
+                    <h2>Protect your sleep</h2>
+                    <p>Keep a regular wind-down routine and make your sleeping space restful.</p>
+                </div>
+                <div class="item">
+                    <h2>Pause and reset</h2>
+                    <p>Brief moments of breathing, reflection, or connection can support wellbeing.</p>
+                </div>
+                <div class="item">
+                    <h2>Track what matters</h2>
+                    <p>Notice patterns in energy, mood, and routines without judging yourself.</p>
+                </div>
+            </div>
+            <section class="guide">
+                <h2>Healthy habits and wellbeing guide</h2>
+                <h3>1. Principles of behavior change</h3>
+                <ul>
+                    <li><strong>Habit stacking:</strong> Attach a new habit to an existing routine, such as drinking water after making your morning coffee.</li>
+                    <li><strong>Small gains:</strong> Focus on manageable improvements instead of changing everything at once.</li>
+                    <li><strong>Environment design:</strong> Make helpful choices easy to see and unhelpful choices less convenient.</li>
+                    <li><strong>Consistency:</strong> Small actions repeated regularly usually matter more than occasional intense efforts.</li>
+                </ul>
+
+                <h3>2. Wellbeing pillars</h3>
+                <ul>
+                    <li><strong>Sleep:</strong> Keep a consistent schedule, create a comfortable bedroom, and reduce screen use before bed.</li>
+                    <li><strong>Daily movement:</strong> Add activity throughout the day with walks, stairs, stretching, or standing breaks.</li>
+                    <li><strong>Nourishment and hydration:</strong> Keep water visible, choose varied foods, and slow down during meals.</li>
+                    <li><strong>Morning light:</strong> Spend time outdoors early in the day when practical to support a regular sleep-wake rhythm.</li>
+                </ul>
+
+                <h3>3. Cognitive and emotional habits</h3>
+                <ul>
+                    <li><strong>Mindfulness:</strong> Set aside a few minutes for breathing or meditation to support focus and emotional regulation.</li>
+                    <li><strong>Journaling:</strong> Try gratitude lists, a brain dump, or an evening reflection to process thoughts.</li>
+                    <li><strong>Digital wellness:</strong> Create screen-free spaces, turn off nonessential notifications, and take regular breaks.</li>
+                    <li><strong>Stress management:</strong> Use slow breathing, brief movement, or a supportive conversation during stressful moments.</li>
+                </ul>
+
+                <h3>4. Social and environmental wellbeing</h3>
+                <ul>
+                    <li><strong>Connection:</strong> Nurture relationships with regular check-ins, active listening, and shared time.</li>
+                    <li><strong>Boundaries:</strong> Say no to nonessential commitments when you need to protect your energy.</li>
+                    <li><strong>Nature:</strong> Spend time outdoors to refresh your attention and support a sense of wellbeing.</li>
+                    <li><strong>Order:</strong> Keep living and working spaces manageable to reduce visual distractions.</li>
+                </ul>
+
+                <h3>5. Making habits stick</h3>
+                <ul>
+                    <li><strong>Two-minute start:</strong> Make a new habit small enough to begin immediately, such as reading one page.</li>
+                    <li><strong>Track progress:</strong> Use a simple paper or digital tracker to notice consistency.</li>
+                    <li><strong>Plan ahead:</strong> Define what you will do, when you will do it, and where it will happen.</li>
+                    <li><strong>Recover gently:</strong> If you miss a day, return to the habit as soon as you reasonably can.</li>
+                </ul>
+
+                <h3>6. Long-term maintenance</h3>
+                <ul>
+                    <li><strong>Review regularly:</strong> Check which habits are helping and adjust the ones that no longer fit.</li>
+                    <li><strong>Adapt with life:</strong> Change routines around workload, seasons, health, and other responsibilities.</li>
+                    <li><strong>Celebrate the process:</strong> Notice daily effort and consistency, not only final outcomes.</li>
+                </ul>
+
+                <h3>References and resources</h3>
+                <ul>
+                    <li><a href="https://www.cdc.gov/lifestyle/" target="_blank" rel="noopener">CDC Health and Wellness Resources</a></li>
+                    <li><a href="https://www.nccih.nih.gov/health/mind-and-body-approaches" target="_blank" rel="noopener">NIH Mind and Body Approaches</a></li>
+                    <li><a href="https://www.health.harvard.edu/topics/mind-and-mood" target="_blank" rel="noopener">Harvard Health: Wellness</a></li>
+                    <li><a href="https://www.who.int/health-topics/mental-health" target="_blank" rel="noopener">WHO Mental Health and Wellbeing</a></li>
+                </ul>
+            </section>
+        </main>
+    </div>
+</body>
+<script src="index.js"></script>
+
+</html>
